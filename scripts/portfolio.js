@@ -138,10 +138,11 @@ function movePage(partToShow, contentOutContainerId, contentInContainerId, anima
     toRemove.parentNode.removeChild(toRemove);
   }
   // Cloning existing canvas
-  let previousCanvas = document.getElementById('canvas-image');
+  let previousCanvas = document.querySelector('canvas');//document.getElementById('canvas-image');
   let nextCanvas = previousCanvas.cloneNode(true);
   // Copying image from existing canvas to new one
   //nextCanvas.getContext('2d').drawImage(previousCanvas, 0, 0);
+  reDraw(nextCanvas.getContext('2d'));
   // Replacing existing canvas with new one
   previousCanvas.parentNode.replaceChild(nextCanvas, previousCanvas);
   // Creating arrays of strings to insert into @keyframes rules
@@ -213,8 +214,6 @@ canvas, #canvas-image {\
         animation-fill-mode: forwards;\
         -webkit-animation-fill-mode: forwards;\
         -moz-animation-fill-mode: forwards;\
-        width: 300vw;\
-        height: 300vh;\
         left: ' +
     currentLeft +
     'px;\

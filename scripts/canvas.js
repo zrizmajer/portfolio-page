@@ -3,10 +3,18 @@ let canvas = document.querySelector('canvas');
 let winWidth = window.innerWidth;
 let winHeight = window.innerHeight;
 
-
 // Resizing canvas to 3X the full window
 canvas.width = winWidth * 3;
 canvas.height = winHeight * 3;
+
+
+function reSize() {
+  canvas = document.querySelector('canvas');
+  canvas.width = winWidth * 3;
+  canvas.height = winHeight * 3;
+  currentLeft = -winWidth;
+  currentTop = -winHeight;
+}
 
 // Starting left and top to position canvas
 let currentLeft = -winWidth;
@@ -65,33 +73,34 @@ function createPointsArray(coordArrays) {
   return lines;
 }
 
-function drawLinePart(line, color) {
+function drawLinePart(context, line, color) {
   /* Input: an array of Point objects defining a line, and a color for the line
   Draws one line defined by the input points array in the given color.
   Applies a line width of 8, round type line joining, and a simple shadow.
   */
-  c.beginPath();
-  c.moveTo(line[0].x, line[0].y);
+ context.beginPath();
+ context.moveTo(line[0].x, line[0].y);
   for (let i = 1; i < line.length; i++) {
-    c.lineTo(line[i].x, line[i].y);
+    context.lineTo(line[i].x, line[i].y);
   }
-  c.strokeStyle = color;
-  c.lineWidth = 8;
-  c.lineJoin = 'round';
-  c.shadowColor = 'rgb(172, 172, 236)';
-  c.shadowBlur = 5;
-  c.shadowOffsetX = 1;
-  c.shadowOffsetY = 1;
-  c.stroke();
+  context.strokeStyle = color;
+  context.lineWidth = 8;
+  context.lineJoin = 'round';
+  context.shadowColor = 'rgb(172, 172, 236)';
+  context.shadowBlur = 5;
+  context.shadowOffsetX = 1;
+  context.shadowOffsetY = 1;
+  context.stroke();
 }
 
-function drawNetwork(lines, colors) {
+function drawNetwork(context, lines, colors) {
   /* Input: array of lines defined by Point objects
   Draws the network on the canvas
   */
-  let coordinates = createPoints(lines);
+  //reSize();
+  let coordinates = createPointsArray(lines);
   for (let i = 0; i < lines.length; i++) {
-    drawLinePart(coordinates[i], colors[i]);
+    drawLinePart(context, coordinates[i], colors[i]);
   }
 }
 
@@ -141,7 +150,7 @@ function drawLine(actualLeadingPoints, n, colors) {
   /* Input: an array of the leading points already passed.
   Draws the nth line of the array in the color given
   */
-  drawLinePart(actualLeadingPoints[n], colors[n]);
+  drawLinePart(c, actualLeadingPoints[n], colors[n]);
 }
 
 function animate() {
@@ -158,13 +167,13 @@ function animate() {
       drawLine(actualLeadingPoints, i, colors)
     }
   } else {
-    var canva = document.getElementById('canvas');
+    /*var canva = document.getElementById('canvas');
     var dataURL = canva.toDataURL();
     let image;
     image = document.createElement('img');
     image.src = dataURL;
     image.id = 'canvas-image';
-    canva.parentNode.replaceChild(image, canva);
+    canva.parentNode.replaceChild(image, canva);*/
   }
 }
 
@@ -214,4 +223,9 @@ function redraw() {
       currentTop = -winHeight;
       break;
   }
+}
+
+function reDraw(context){
+  console.log('reDraw works');
+  drawNetwork(context, coordArrays, colors);
 }

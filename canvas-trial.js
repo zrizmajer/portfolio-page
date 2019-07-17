@@ -4,6 +4,8 @@ var canvas = document.querySelector('canvas');
 // Setting canvas to fit full screen
 let winWidth = window.innerWidth;
 let winHeight = window.innerHeight;
+canvas.width = winWidth;
+canvas.height = winHeight;
 
 function reSize() {
   winWidth = window.innerWidth;
