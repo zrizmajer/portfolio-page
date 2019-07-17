@@ -1,16 +1,26 @@
-// Find canvas
-var canvas = document.querySelector('canvas');
-
-// Setting canvas to fit full screen
+// Canvas on index.html
+let canvas = document.querySelector('canvas');
 let winWidth = window.innerWidth;
 let winHeight = window.innerHeight;
 
-function reSize() {
-  winWidth = window.innerWidth;
-  winHeight = window.innerHeight;
-  canvas.width = winWidth;
-  canvas.height = winHeight;
-}
+
+// Resizing canvas to 3X the full window
+canvas.width = winWidth * 3;
+canvas.height = winHeight * 3;
+
+// Starting left and top to position canvas
+let currentLeft = -winWidth;
+let currentTop = -winHeight;
+let style = document.createElement('style');
+style.type = 'text/css';
+style.id = 'moveCanvas';
+let initializeCanvas = '\
+canvas, #canvas-image {\
+  left: ' + currentLeft + 'px;\
+  top: ' + currentTop + 'px;\
+}';
+style.innerHTML = initializeCanvas;
+document.getElementsByTagName('head')[0].appendChild(style);
 
 // Point object
 class Point {
@@ -24,11 +34,11 @@ class Point {
 let c = canvas.getContext('2d');
 
 // Define 3 arrays, containing the x and y coordinates used to construct the lines.  These are given as a number between 0 and 1
-let redCoordArray = [[0, 0.6], [0.25, 0.6], [0.5, 0.6], [0.75, 0.4], [1, 0.4]];
+let redCoordArray = [[0.95, 1.6], [1.25, 1.6], [1.5, 1.6], [1.75, 1.4], [2.05, 1.4]];
 
-let blueCoordArray = [[0.4, 0], [0.4, 0.2], [0.4, 0.4], [0.5, 0.6], [0.5, 1]];
+let blueCoordArray = [[1.4, 0.95], [1.4, 1.2], [1.4, 1.4], [1.5, 1.6], [1.5, 2.05]];
 
-let yellowCoordArray = [[0.25, 0.75], [0.25, 0.6], [0.25, 0.2], [0.4, 0.2], [0.6, 0.2], [0.75, 0.4]];
+let yellowCoordArray = [[1.25, 1.75], [1.25, 1.6], [1.25, 1.2], [1.4, 1.2], [1.6, 1.2], [1.75, 1.4]];
 
 // Pushing the three arrays into the coordArrays variable
 let coordArrays = [];
@@ -79,8 +89,7 @@ function drawNetwork(lines, colors) {
   /* Input: array of lines defined by Point objects
   Draws the network on the canvas
   */
-  reSize();
-  let coordinates = createPointsArray(lines);
+  let coordinates = createPoints(lines);
   for (let i = 0; i < lines.length; i++) {
     drawLinePart(coordinates[i], colors[i]);
   }
@@ -148,7 +157,15 @@ function animate() {
       addLeadingPointToActual(lineLeadingPoints, i, t)
       drawLine(actualLeadingPoints, i, colors)
     }
-  } 
+  } else {
+    var canva = document.getElementById('canvas');
+    var dataURL = canva.toDataURL();
+    let image;
+    image = document.createElement('img');
+    image.src = dataURL;
+    image.id = 'canvas-image';
+    canva.parentNode.replaceChild(image, canva);
+  }
 }
 
 // Decide how many segments will each line be split up to
@@ -170,5 +187,31 @@ let actualLeadingPoints = [];
 initialiseActualArray(lineLeadingPoints);
 
 // Animate the network
-reSize();
 animate();
+
+function redraw() {
+  winWidth = window.innerWidth;
+  winHeight = window.innerHeight;
+  switch (_status) {
+    case 0:
+      currentLeft = -winWidth;
+      currentTop = -winHeight;
+      break;
+    case 1:
+      currentLeft = -winWidth;
+      currentTop = 0;
+      break;
+    case 2:
+      currentLeft = -(2 * winWidth);
+      currentTop = -winHeight;
+      break;
+    case 3:
+      currentLeft = -winWidth;
+      currentTop = -(2 * winHeight);
+      break;
+    case 4:
+      currentLeft = 0;
+      currentTop = -winHeight;
+      break;
+  }
+}

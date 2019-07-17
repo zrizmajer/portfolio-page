@@ -4,13 +4,8 @@ var canvas = document.querySelector('canvas');
 // Setting canvas to fit full screen
 let winWidth = window.innerWidth;
 let winHeight = window.innerHeight;
-
-function reSize() {
-  winWidth = window.innerWidth;
-  winHeight = window.innerHeight;
-  canvas.width = winWidth;
-  canvas.height = winHeight;
-}
+canvas.width = winWidth;
+canvas.height = winHeight;
 
 // Point object
 class Point {
@@ -19,9 +14,6 @@ class Point {
     this.y = y;
   }
 }
-
-// Context
-let c = canvas.getContext('2d');
 
 // Define 3 arrays, containing the x and y coordinates used to construct the lines.  These are given as a number between 0 and 1
 let redCoordArray = [[0, 0.6], [0.25, 0.6], [0.5, 0.6], [0.75, 0.4], [1, 0.4]];
@@ -55,6 +47,9 @@ function createPointsArray(coordArrays) {
   return lines;
 }
 
+// Canvas context
+let c = canvas.getContext('2d');
+
 function drawLinePart(line, color) {
   /* Input: an array of Point objects defining a line, and a color for the line
   Draws one line defined by the input points array in the given color.
@@ -68,10 +63,10 @@ function drawLinePart(line, color) {
   c.strokeStyle = color;
   c.lineWidth = 8;
   c.lineJoin = 'round';
-  c.shadowColor = 'rgb(172, 172, 236)';
-  c.shadowBlur = 5;
-  c.shadowOffsetX = 1;
-  c.shadowOffsetY = 1;
+  // c.shadowColor = 'rgb(172, 172, 236)';
+  // c.shadowBlur = 5;
+  // c.shadowOffsetX = 1;
+  // c.shadowOffsetY = 1;
   c.stroke();
 }
 
@@ -79,8 +74,7 @@ function drawNetwork(lines, colors) {
   /* Input: array of lines defined by Point objects
   Draws the network on the canvas
   */
-  reSize();
-  let coordinates = createPointsArray(lines);
+  let coordinates = createPoints(lines);
   for (let i = 0; i < lines.length; i++) {
     drawLinePart(coordinates[i], colors[i]);
   }
@@ -123,32 +117,26 @@ function initialiseActualArray(lineLeadingPoints) {
 
 function addLeadingPointToActual(lineLeadingPoints, n, t) {
   /* Input: an array of line leading points
-  Adds a new point to the nth array of the lineLeadingPoints array for each t value.
+  
   */
   actualLeadingPoints[n].push(lineLeadingPoints[n][t - 1]);
 }
 
 function drawLine(actualLeadingPoints, n, colors) {
-  /* Input: an array of the leading points already passed.
-  Draws the nth line of the array in the color given
-  */
+  // 
   drawLinePart(actualLeadingPoints[n], colors[n]);
 }
 
 function animate() {
-  /* Iterates through the values of t, drawing out all the lines in the same T time.
-  Clears the canvas at each value of t, adds a new point to the ctual leading points array, then
-  draws it.
-  */ 
   if (t < T + 1) {
     t++;
     requestAnimationFrame(animate);
-    c.clearRect(0, 0, winWidth * 3, winHeight * 3);
+    c.clearRect(0, 0, winWidth, winHeight);
     for (let i = 0; i < colors.length; i++) {
       addLeadingPointToActual(lineLeadingPoints, i, t)
       drawLine(actualLeadingPoints, i, colors)
     }
-  } 
+  }
 }
 
 // Decide how many segments will each line be split up to
@@ -170,5 +158,67 @@ let actualLeadingPoints = [];
 initialiseActualArray(lineLeadingPoints);
 
 // Animate the network
-reSize();
 animate();
+
+
+
+
+
+// Array containing how many parts the lines have
+//let lineParts = [];
+
+/*function calcLineParts(arrays) {}
+coordArrays.forEach(function(item) {
+  if (!lineParts.includes(item.length - 1)) {
+    lineParts.push(item.length - 1);
+  }
+});
+let T;
+if (lineParts.length === 1) {
+  T = 100;
+} else if (lineParts.length === 2) {
+  T = lcm_two_numbers(lineParts[0], lineParts[1]);
+} else {
+  T = lcm_more_than_two_numbers(lineParts);
+}
+
+
+function lcm_two_numbers(x, y) {
+  // Source: https://www.w3resource.com/javascript-exercises/javascript-math-exercise-10.php
+  if (typeof x !== 'number' || typeof y !== 'number') return false;
+  return !x || !y ? 0 : Math.abs((x * y) / gcd_two_numbers(x, y));
+}
+
+function gcd_two_numbers(x, y) {
+  // Source: https://www.w3resource.com/javascript-exercises/javascript-math-exercise-10.php
+  x = Math.abs(x);
+  y = Math.abs(y);
+  while (y) {
+    var t = y;
+    y = x % y;
+    x = t;
+  }
+  return x;
+}
+
+function lcm_more_than_two_numbers(input_array) {
+  // Source: https://www.w3resource.com/javascript-exercises/javascript-math-exercise-11.php
+  if (toString.call(input_array) !== '[object Array]') return false;
+  var r1 = 0,
+    r2 = 0;
+  var l = input_array.length;
+  for (i = 0; i < l; i++) {
+    r1 = input_array[i] % input_array[i + 1];
+    if (r1 === 0) {
+      input_array[i + 1] = (input_array[i] * input_array[i + 1]) / input_array[i + 1];
+    } else {
+      r2 = input_array[i + 1] % r1;
+      if (r2 === 0) {
+        input_array[i + 1] = (input_array[i] * input_array[i + 1]) / r1;
+      } else {
+        input_array[i + 1] = (input_array[i] * input_array[i + 1]) / r2;
+      }
+    }
+  }
+  return input_array[l - 1];
+}*/

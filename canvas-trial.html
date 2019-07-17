@@ -1,21 +1,17 @@
 <!DOCTYPE html>
-<html lang='en'>
-    <head>
-        <meta charset='UTF-8'/>
-        <title>Zoltan Rizmajer portfolio</title>
-        <style type="text/css">
-            canvas {
-                border: 1px solid black;
-            }
-
-            body {
-                margin: 0;
-                overflow: hidden;
-            }
-        </style>
-    </head>
-    <body>
-        <canvas></canvas>
-        <script src="canvas-trial.js"></script>
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML Canvas trial</title>
+    <style type="text/css">
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body onresize="drawNetwork(coordArrays, colors);">
+    <canvas></canvas>
+    <script src="canvas-trial.js"></script>
+  </body>
 </html>

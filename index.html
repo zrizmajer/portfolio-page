@@ -1,21 +1,149 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Zoltan Rizmajer portfolio</title>
-        <meta charset='UTF-8' />
-        <style type="text/css">
-            canvas {
-                border: 1px solid black;
-            }
+  <head>
+    <title>Zoltan Rizmajer portfolio</title>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <script src="./scripts/portfolio.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles/portfolio.css" />
+    <link href="https://fonts.googleapis.com/css?family=Duru Sans" rel="stylesheet" />
+  </head>
+  <body onresize="resize();">
+    <canvas id="canvas"></canvas>
+    <script src="./scripts/canvas.js"></script>
+    <div class="content-container" id="main-container">
+      <div class="intersection shownByDefault" id="interContact" onclick="moveLeft();">
+        <h1 class="main-label" id="contact-label">Contact</h1>
+      </div>
+      <div class="intersection shownByDefault" id="interAbout" onclick="moveUp();">
+        <h1 class="main-label" id="about-label">About</h1>
+      </div>
 
-            body {
-                margin: 0;
-                overflow: hidden;
-            }
-        </style>
-    </head>
-    <body>
-        <canvas></canvas>
-        <script src="./scripts/portfolio.js"></script>
-    </body>
+      <div class="intersection shownByDefault" id="interBlog" onclick="moveDown();">
+        <h1 class="main-label" id="blog-label">Blog</h1>
+      </div>
+
+      <div class="intersection shownByDefault" id="interWork" onclick="moveRight();">
+        <h1 class="main-label" id="work-label">Work</h1>
+      </div>
+    </div>
+
+    <div class="content-container hiddenByDefault" id="about-container">
+      <section id="about-section">
+          <div class="section-title-container"><h1 class="section-title">About</h1></div>
+        <div class="intersection" id="backAbout" onclick="moveBackFromUp();">
+          <h1 class="main-label back-label-right">Back</h1>
+        </div>
+        <div id="intro-container" class="inner-container">
+          <p id="first-par">
+            <img id="profile-picture" src="./images/resized-Eiffel.jpg" alt="Zoltan Rizmajer picture" />Hello there!<br /><br />
+            My name is Zoltan Rizmajer, a self taught Front-end Developer constantly looking for new challenges. I started learning software
+            development after encountering a bug in an Excel VBA tool I was using at work. Spending an hour to find and fix it saved me an hour each
+            day. It felt amazing. So, about a year ago I started to do online courses, starting off with Python, and later moved towards web
+            development. I am currently working on building responsive web pages, making use of the following technologies:<br /><br />
+            <ul id="skills-list">
+              <li>HTML5</li>
+              <li>CSS3 (Sass and Bootstrap 4)</li>
+              <li>JavaScript (vanilla and jQuery)</li>
+              <li>Python.</li>
+            </ul>
+          </p>
+          
+          <p>
+            To advance my knowledge, I am currently learning TypeScript, React.js, and Angular. On the Back-end side, I am starting to work with
+            Node.js and SQL.
+          </p>
+          <p>
+            I want to reference a very helpful <a href="https://github.com/kamranahmedse/developer-roadmap" target="_blank">roadmap</a> that I'm
+            following, made by Kamran Ahmed, to become a Web Developer in 2019.
+          </p>
+        </div>
+      </section>
+    </div>
+    <div class="content-container hiddenByDefault" id="contact-container">
+      <section id="contact-section">
+        <div class="section-title-container"><h1 class="section-title">Contact</h1></div>
+        <div class="intersection" id="backContact" onclick="moveBackFromLeft();">
+          <div id="contacts" class="inner-container"></div>
+          <h1 class="main-label back-label-top">Back</h1>
+        </div>
+        <div class="contacts">
+        <div class="social-media-contact-group">
+          <div class="social-media-contact">
+            <a href="https://www.linkedin.com/in/zolt%C3%A1n-rizmajer-40b742101/" target="_blank"><img class="social-media-icon" src="images/linkedin.svg" alt="linkedin icon" width="40px" height="40px" />
+            <p class="social-media-text">LinkedIn</p>
+          </a>
+          </div>
+          <div class="social-media-contact">
+              <a href="https://www.facebook.com/zoltan.rizmajer.1" target="_blank">
+              <img class="social-media-icon" src="images/facebook.svg" alt="linkedin icon" width="40px" height="40px" />
+            <p class="social-media-text">Facebook</p>
+          </a>
+          </div>
+          <div class="social-media-contact">
+              <a href="https://www.instagram.com/rizmajerz/" target="_blank">
+              <img class="social-media-icon" src="images/instagram.svg" alt="linkedin icon" width="40px" height="40px" />
+            <p class="social-media-text">Instagram</p>
+          </a>
+          </div>
+          <div class="social-media-contact">
+              <a href="https://github.com/zrizmajer" target="_blank">
+              <img class="social-media-icon" src="images/github.svg" alt="linkedin icon" width="40px" height="40px" />
+            <p class="social-media-text">GitHub</p>
+          </a>
+          </div>
+          <div class="social-media-contact">
+              <a href="https://codepen.io/zrizmajer/" target="_blank">
+              <img class="social-media-icon" src="images/3d-outlined-shape.svg" alt="linkedin icon" width="40px" height="40px" />
+            <p class="social-media-text">CodePen</p>
+          </a>
+          </div>
+        </div>
+        <div id="contact-iframe" class="inner-container">
+          <iFrame src="http://www.zoltanrizmajer.com/blog/contact-me/"></iFrame>
+        </div>
+        <div id="icons-credit">
+            <p><div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div></p>
+          </div>
+      </div>
+        
+      </section>
+    </div>
+    <div class="content-container hiddenByDefault" id="blog-container">
+      <section id="blog-section">
+          <div class="section-title-container"><h1 class="section-title" id="blog-section-title">Blog</h1></div>
+        <div class="intersection" id="backBlog" onclick="moveBackFromDown();"><h1 class="main-label back-label-right">Back</h1></div>
+        <div id="blog-iframe" class="inner-container">
+          <iFrame src="http://www.zoltanrizmajer.com/blog/"></iFrame>
+        </div>
+      </section>
+    </div>
+    <div class="content-container hiddenByDefault" id="work-container">
+      <section id="work-section">
+          <div class="section-title-container"><h1 class="section-title">Work</h1></div>
+        <div class="intersection" id="backWork" onclick="moveBackFromRight();">
+          <h1 class="main-label back-label-top">Back</h1>
+        </div>
+        <div id="projects-container" class="inner-container">
+          <div class="projects-row">
+            <div class="projects-column">
+              <div class="project-tile">
+                  <a href="http://zoltanrizmajer.com/viragkoteszet/"><img class="project-image" src="./images/floristry.png" alt="#" /></a>
+              </div>
+            </div>
+            <div class="projects-column">
+              <div class="project-tile">
+                <a href="https://codepen.io/zrizmajer/full/ROWXEy"><img class="project-image" src="./images/happyHives.png" alt="#" /></a>
+              </div>
+            </div>
+            <div class="projects-column">
+              <div class="project-tile">
+                  <a href="https://codepen.io/zrizmajer/full/mgedVE"><img class="project-image" src="./images/leavingWorkSurvey.png" alt="#" /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
 </html>
