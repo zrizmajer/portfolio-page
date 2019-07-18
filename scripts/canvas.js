@@ -16,7 +16,7 @@ let style = document.createElement('style');
 style.type = 'text/css';
 style.id = 'moveCanvas';
 let initializeCanvas = '\
-canvas, {\
+canvas {\
   left: ' + currentLeft + 'px;\
   top: ' + currentTop + 'px;\
 }';
@@ -84,6 +84,7 @@ function drawLinePart(context, line, color) {
   context.shadowOffsetX = 1;
   context.shadowOffsetY = 1;
   context.stroke();
+  console.log(context);
 }
 
 function drawNetwork(context, lines, colors) {
@@ -138,11 +139,12 @@ function addLeadingPointToActual(lineLeadingPoints, n, t) {
   actualLeadingPoints[n].push(lineLeadingPoints[n][t - 1]);
 }
 
-function drawLine(actualLeadingPoints, n, colors) {
+function drawLine(context, actualLeadingPoints, n, colors) {
   /* Input: an array of the leading points already passed.
   Draws the nth line of the array in the color given
   */
-  drawLinePart(c, actualLeadingPoints[n], colors[n]);
+
+  drawLinePart(context, actualLeadingPoints[n], colors[n]);
 }
 
 function animate() {
@@ -150,27 +152,28 @@ function animate() {
   Clears the canvas at each value of t, adds a new point to the ctual leading points array, then
   draws it.
   */ 
+  
   if (t < T + 1) {
     t++;
     requestAnimationFrame(animate);
     c.clearRect(0, 0, winWidth * 3, winHeight * 3);
     for (let i = 0; i < colors.length; i++) {
       addLeadingPointToActual(lineLeadingPoints, i, t)
-      drawLine(actualLeadingPoints, i, colors)
+      drawLine(c, actualLeadingPoints, i, colors)
     }
-  } else {
-    /*var canva = document.getElementById('canvas');
+  }/* else {
+    var canva = document.getElementById('canvas');
     var dataURL = canva.toDataURL();
     let image;
     image = document.createElement('img');
     image.src = dataURL;
     image.id = 'canvas-image';
-    canva.parentNode.replaceChild(image, canva);*/
-  }
+    canva.parentNode.replaceChild(image, canva);
+  }*/
 }
 
 // Decide how many segments will each line be split up to
-let T = 120;
+let T = 60;
 
 // Initialise counter
 let t = 1;

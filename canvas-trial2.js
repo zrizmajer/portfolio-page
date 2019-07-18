@@ -16,7 +16,7 @@ let style = document.createElement('style');
 style.type = 'text/css';
 style.id = 'moveCanvas';
 let initializeCanvas = '\
-canvas, {\
+canvas {\
   position: absolute;\
   left: ' + currentLeft + 'px;\
   top: ' + currentTop + 'px;\
