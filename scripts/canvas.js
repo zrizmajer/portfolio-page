@@ -7,23 +7,16 @@ let winHeight = window.innerHeight;
 canvas.width = winWidth * 3;
 canvas.height = winHeight * 3;
 
-
-function reSize() {
-  canvas = document.querySelector('canvas');
-  canvas.width = winWidth * 3;
-  canvas.height = winHeight * 3;
-  currentLeft = -winWidth;
-  currentTop = -winHeight;
-}
-
-// Starting left and top to position canvas
+// Variables used to position canvas
 let currentLeft = -winWidth;
 let currentTop = -winHeight;
+
+// Adding a style sheet to the head tag of index.html with 
 let style = document.createElement('style');
 style.type = 'text/css';
 style.id = 'moveCanvas';
 let initializeCanvas = '\
-canvas, #canvas-image {\
+canvas, {\
   left: ' + currentLeft + 'px;\
   top: ' + currentTop + 'px;\
 }';
@@ -41,7 +34,7 @@ class Point {
 // Context
 let c = canvas.getContext('2d');
 
-// Define 3 arrays, containing the x and y coordinates used to construct the lines.  These are given as a number between 0 and 1
+// Define 3 arrays, containing the x and y coordinates used to construct the lines.  These are given as a number between 0 and 3
 let redCoordArray = [[0.95, 1.6], [1.25, 1.6], [1.5, 1.6], [1.75, 1.4], [2.05, 1.4]];
 
 let blueCoordArray = [[1.4, 0.95], [1.4, 1.2], [1.4, 1.4], [1.5, 1.6], [1.5, 2.05]];
@@ -97,7 +90,6 @@ function drawNetwork(context, lines, colors) {
   /* Input: array of lines defined by Point objects
   Draws the network on the canvas
   */
-  //reSize();
   let coordinates = createPointsArray(lines);
   for (let i = 0; i < lines.length; i++) {
     drawLinePart(context, coordinates[i], colors[i]);

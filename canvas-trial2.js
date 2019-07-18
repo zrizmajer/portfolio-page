@@ -1,11 +1,28 @@
 // Find canvas
 var canvas = document.querySelector('canvas');
-
-// Setting canvas to fit full screen
 let winWidth = window.innerWidth;
 let winHeight = window.innerHeight;
-canvas.width = winWidth;
-canvas.height = winHeight;
+
+// Resizing canvas to 3X the full window
+canvas.width = winWidth * 3;
+canvas.height = winHeight * 3;
+
+// Variables used to position canvas
+let currentLeft = -winWidth;
+let currentTop = -winHeight;
+
+// Adding a style sheet to the head tag of canvas-trial.html
+let style = document.createElement('style');
+style.type = 'text/css';
+style.id = 'moveCanvas';
+let initializeCanvas = '\
+canvas, {\
+  position: absolute;\
+  left: ' + currentLeft + 'px;\
+  top: ' + currentTop + 'px;\
+}';
+style.innerHTML = initializeCanvas;
+document.getElementsByTagName('head')[0].appendChild(style);
 
 // Point object
 class Point {
@@ -18,12 +35,12 @@ class Point {
 // Context
 let c = canvas.getContext('2d');
 
-// Define 3 arrays, containing the x and y coordinates used to construct the lines.  These are given as a number between 0 and 1
-let redCoordArray = [[0, 0.6], [0.25, 0.6], [0.5, 0.6], [0.75, 0.4], [1, 0.4]];
+// Define 3 arrays, containing the x and y coordinates used to construct the lines.  These are given as a number between 0 and 3
+let redCoordArray = [[0.95, 1.6], [1.25, 1.6], [1.5, 1.6], [1.75, 1.4], [2.05, 1.4]];
 
-let blueCoordArray = [[0.4, 0], [0.4, 0.2], [0.4, 0.4], [0.5, 0.6], [0.5, 1]];
+let blueCoordArray = [[1.4, 0.95], [1.4, 1.2], [1.4, 1.4], [1.5, 1.6], [1.5, 2.05]];
 
-let yellowCoordArray = [[0.25, 0.75], [0.25, 0.6], [0.25, 0.2], [0.4, 0.2], [0.6, 0.2], [0.75, 0.4]];
+let yellowCoordArray = [[1.25, 1.75], [1.25, 1.6], [1.25, 1.2], [1.4, 1.2], [1.6, 1.2], [1.75, 1.4]];
 
 // Pushing the three arrays into the coordArrays variable
 let coordArrays = [];
@@ -165,8 +182,12 @@ function resize() {
   // Resizes canvas to be fit the full window
   winWidth = window.innerWidth;
   winHeight = window.innerHeight;
-  canvas.width = winWidth;
-  canvas.height = winHeight;
+  canvas.width = winWidth * 3;
+  canvas.height = winHeight * 3;
+  currentLeft = -winWidth;
+  currentTop = -winHeight;
+  canvas.style.left = currentLeft;
+  canvas.style.top = currentTop;
 }
 
 function drawNetwork(lines, colors) {
